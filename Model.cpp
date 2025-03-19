@@ -24,21 +24,28 @@ model::model(const char *filename){
             verts.emplace_back(x,y,z);
         }
         else if(!line.compare(0, 2, "f ")){
-            int vertexIndex[3], textureIndex[3];
+            int vertexIndex[3], textureIndex[3], normalIndex[3];
             iss >> junk;
             int first, second, third;
             for(int i=0;i<3;i++){
                 iss >> first >> junk >> second >> junk >> third;
                 vertexIndex[i] = --first;
                 textureIndex[i] = --second;
+                normalIndex[i] = --third;
             }
-            faces.emplace_back(vertexIndex[0], vertexIndex[1], vertexIndex[2], textureIndex[0], textureIndex[1], textureIndex[2]);
+            faces.emplace_back(vertexIndex[0], vertexIndex[1], vertexIndex[2], textureIndex[0], textureIndex[1], textureIndex[2], normalIndex[0], normalIndex[1], normalIndex[2]);
         }
         else if(!line.compare(0, 3, "vt ")){
             iss >>junk>>junk;
             double u, v;
             iss>>u>>v;
             textures.emplace_back(u, v);
+        }
+        else if(!line.compare(0, 3, "vn ")){
+            iss >>junk>>junk;
+            double x, y, z;
+            iss>>x>>y>>z;
+            vnormals.emplace_back(x, y, z);
         }
     }
 }
